@@ -1,32 +1,49 @@
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    
+    bool dfs(int s, vector<vector<int>> &adj, vector<int> &visited ){
+        cout<<"h";
         
-        vector<vector<int>> adj(numCourses, vector<int>());   
+        if(visited[s] == 1) return false;
+        if(visited[s] == 2) return true;
         
-        for(vector<int> &pre: prerequisites){
-            adj[pre[0]].push_back(pre[1]);
+        visited[s] = 1;
+        
+        for(int i : adj[s]){
+            cout<<"k";
+            if(!dfs(i,adj,visited)){
+                return false;
+            }
         }
-        
-        vector<int> visited(numCourses, 0);
-        
-        for(int i=0; i<numCourses; i++){
-            if(visited[i] == 0 && !dfs(adj, visited, i)) return false;
-        }
-        
+        visited[s] = 2;
         return true;
-        
     }
     
-    bool dfs(vector<vector<int>> &adj , vector<int> &visited, int v){
+    
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         
-        if(visited[v]==1) return false;
-        if(visited[v] == 2) return true;
-        visited[v] = 1;
-        for(int ad: adj[v]){
-            if(!dfs(adj, visited, ad)) return false;
+        vector<vector<int>> adj(numCourses);
+        vector<int> visited(numCourses , 0);
+        /*for(int i =0; i<prerequisites.size(); i++){
+            adj[i].push_back(prerequisites[i][1]);
+        }*/
+       
+        
+         for(vector<int> &pre: prerequisites){
+            adj[pre[0]].push_back(pre[1]);
         }
-        visited[v] = 2;
+         //cout<<adj[1][0];
+        
+        
+        
+        for(int i = 0; i<numCourses; i++){
+            if(visited[i] == 0){
+                cout<<i;
+                if(dfs(i, adj, visited) == false) return false;
+            }
+        }
         return true;
+        
     }
 };
