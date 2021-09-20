@@ -3,28 +3,32 @@ public:
     int majorityElement(vector<int>& nums) {
         
         int count  = 1;
-        int result = 0;
+        int result = nums[0];
         
         for(int i =1; i<nums.size(); i++){
             
-            if(nums[i] == nums[result]){
+            if(nums[i] == result){
                 count++;
             }
-            else if(nums[i] != nums[result]){
+            
+            else if(nums[i] != result){
                 count--;
             }
-            if(count ==0){
+            
+            if(count == 0){
+                result = nums[i];
                 count = 1;
-                result =i;
             }
         }
-        count  =0;
+        int count2=  0;
         for(int i =0; i<nums.size(); i++){
-            if(nums[i] == nums[result]){
-                count++;
+            if(nums[i] == result){
+                count2++;
             }
         }
-       return nums[result];
+        
+        if(count2>nums.size()/2) return result;
+        return result;
         
         
     }
